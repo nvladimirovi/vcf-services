@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defined Entity Lifecycle with PRE_VALIDATED</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #0a1929;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 1400px;
+            height: 700px;
+            position: relative;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 60px;
+            font-weight: bold;
+        }
+        
+        .state {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        
+        .state.yellow {
+            background-color: #ffff00;
+            color: #000;
+        }
+        
+        .state.purple {
+            background-color: #8b3dff;
+            color: #fff;
+        }
+        
+        .state.green {
+            background-color: #90ee90;
+            color: #000;
+        }
+        
+        .state.red {
+            background-color: #ff4500;
+            color: #fff;
+        }
+        
+        .state.dark-red {
+            background-color: #cc0000;
+            color: #fff;
+        }
+        
+        .state-label {
+            font-size: 18px;
+            margin-top: 5px;
+        }
+        
+        .transition-label {
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+            font-style: italic;
+            background-color: rgba(10, 25, 41, 0.8);
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        
+        .transition-label.red-text {
+            color: #ff6b6b;
+        }
+        
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        /* State positions */
+        #pre-validated {
+            left: 50px;
+            top: 250px;
+        }
+        
+        #pre-created-1 {
+            left: 250px;
+            top: 400px;
+        }
+        
+        #pre-created-2 {
+            left: 450px;
+            top: 400px;
+        }
+        
+        #resolution-error {
+            left: 450px;
+            top: 150px;
+        }
+        
+        #resolved {
+            left: 700px;
+            top: 400px;
+        }
+        
+        #in-deletion {
+            left: 950px;
+            top: 400px;
+        }
+        
+        #deleted {
+            left: 1200px;
+            top: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Defined Entity Lifecycle</h1>
+        
+        <!-- SVG for arrows -->
+        <svg>
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#6b9bd1" />
+                </marker>
+                <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#ff6b6b" />
+                </marker>
+            </defs>
+            
+            <!-- Create Entity to PRE_VALIDATED -->
+            <path d="M 0,310 L 50,310" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- PRE_VALIDATED to PRE_CREATED -->
+            <path d="M 170,330 Q 210,370 250,430" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- PRE_VALIDATED to DELETED (validation fails) - dashed red line -->
+            <path d="M 170,290 Q 600,50 1200,430" stroke="#ff6b6b" stroke-width="3" fill="none" 
+                  stroke-dasharray="10,5" marker-end="url(#arrowhead-red)" />
+            
+            <!-- PRE_CREATED self loop -->
+            <path d="M 250,460 Q 200,520 250,500" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- PRE_CREATED to PRE_CREATED horizontal -->
+            <path d="M 370,460 L 450,460" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- PRE_CREATED to RESOLUTION_ERROR -->
+            <path d="M 370,430 L 450,250" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- RESOLUTION_ERROR to PRE_CREATED -->
+            <path d="M 450,270 Q 400,340 370,400" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- RESOLUTION_ERROR self loop -->
+            <path d="M 510,150 Q 560,120 540,180" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- PRE_CREATED to RESOLVED (bottom arc) -->
+            <path d="M 570,490 Q 640,540 700,490" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- RESOLUTION_ERROR to RESOLVED -->
+            <path d="M 570,210 Q 640,300 700,430" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- RESOLVED to IN_DELETION -->
+            <path d="M 820,460 L 950,460" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- RESOLVED to DELETED (top arc) -->
+            <path d="M 820,430 Q 1000,300 1200,430" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+            
+            <!-- IN_DELETION to DELETED -->
+            <path d="M 1070,460 L 1200,460" stroke="#6b9bd1" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+        </svg>
+        
+        <!-- States -->
+        <div id="pre-validated" class="state purple">
+            <div>PRE_VALIDATED</div>
+        </div>
+        
+        <div id="pre-created-1" class="state yellow">
+            <div>PRE_CREATED</div>
+        </div>
+        
+        <div id="pre-created-2" class="state yellow">
+            <div>PRE_CREATED</div>
+        </div>
+        
+        <div id="resolution-error" class="state red">
+            <div>RESOLUTION_ERROR</div>
+        </div>
+        
+        <div id="resolved" class="state green">
+            <div>RESOLVED</div>
+        </div>
+        
+        <div id="in-deletion" class="state yellow">
+            <div>IN_DELETION</div>
+        </div>
+        
+        <div id="deleted" class="state dark-red">
+            <div>DELETED</div>
+        </div>
+        
+        <!-- Transition labels -->
+        <div class="transition-label" style="left: -10px; top: 285px;">Create Entity</div>
+        <div class="transition-label" style="left: 150px; top: 365px;">Validate Successful</div>
+        <div class="transition-label red-text" style="left: 520px; top: 10px;">Validate Unsuccessful</div>
+        <div class="transition-label" style="left: 140px; top: 520px;">Update Entity</div>
+        <div class="transition-label" style="left: 300px; top: 475px;">Configure External Resources<br/>Update Entity</div>
+        <div class="transition-label" style="left: 380px; top: 325px;">Resolve<br/>Unsuccessful</div>
+        <div class="transition-label" style="left: 350px; top: 245px;">Update Entity</div>
+        <div class="transition-label" style="left: 545px; top: 95px;">Resolve<br/>Unsuccessful</div>
+        <div class="transition-label" style="left: 570px; top: 535px;">Resolve Successful</div>
+        <div class="transition-label" style="left: 590px; top: 265px;">Resolve Successful</div>
+        <div class="transition-label" style="left: 835px; top: 475px;">Delete with cleanup</div>
+        <div class="transition-label" style="left: 940px; top: 340px;">Delete without cleanup</div>
+        <div class="transition-label" style="left: 1065px; top: 475px;">Release External Resources<br/>Complete Delete</div>
+    </div>
+    
+    <div style="position: fixed; bottom: 20px; right: 20px; color: white; font-size: 14px;">
+        Right-click and "Save Image As" to save this diagram
+    </div>
+</body>
+</html>
+
