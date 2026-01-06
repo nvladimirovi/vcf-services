@@ -11,7 +11,7 @@ The scheduled behaviors functionality provides a built-in mechanism for periodic
 Scheduled behaviors use a dedicated RDE type (`vmware:ScheduledBehaviorType:1.0.0`) to persist scheduling state and configuration. When you schedule a behavior:
 
 1. A ScheduledBehavior RDE instance is created to track the schedule
-2. The behavior is registered with the Tenant Manager scheduler using the cron expression
+2. The behavior is registered with the VCF Automation Provider Management scheduler using the cron expression
 3. At each scheduled time, the behavior is invoked automatically
 4. Execution state and retry information are maintained in the RDE
 
