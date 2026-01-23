@@ -278,7 +278,7 @@ PUT /cloudapi/1.0.0/entities/<entity_id>
     "externalId": null,
     "entity": {
         "entity": {
-            "VcdVm": {
+            "vm": {
                 "name": false
             }
         }
@@ -356,5 +356,4 @@ in the request. This applies to all hook types including PreCreate, PostCreate, 
 POST https://{{vcfa_host}}:{{vcfa_port}}/cloudapi/1.0.0/entityTypes/urn:vcloud:type:clusterVendorA:basicContainerCluster:1.0.0?invokeHooks=false
 ```
 
-The `invokeHooks` query parameter is accepted only if the user making the request has a Full Control ACL for the specific type. The creator of the RDE type is granted such ACL by default. An ACL can be granted to other users as well via the [Type Access
-Controls API](https://developer.broadcom.com/xapis/vmware-cloud-director-openapi/latest/type-access-controls/).
+The `invokeHooks` query parameter is accepted only if the user making the request has a Full Control ACL for the specific type. The creator of the RDE type is granted such ACL by default. An ACL can be granted to other users as well via the [Type Access Controls API](https://developer.broadcom.com/xapis/provider-infrastructure-apis/latest/type-access-controls/).

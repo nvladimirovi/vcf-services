@@ -243,7 +243,7 @@ public class MqttListener implements IMqttMessageListener {
 
     @Override
     public void messageArrived(final String s, final MqttMessage mqttMessage) throws Exception {
-        // Message from VCD received
+        // Message from VCFA received
 
         MqttRemoteServerMessage request = objectMapper.readValue(mqttMessage.getPayload(), MqttRemoteServerMessage.class);
 
@@ -313,7 +313,7 @@ public class MqttRemoteServerMessage {
     }
 
     /**
-     * @return the notification type of the messageIn the case of a MQTT message coming from VCD this
+     * @return the notification type of the messageIn the case of a MQTT message coming from VCFA this
      * is BEHAVIOR_INVOCATION.
      */
     public NotificationType getType() {
@@ -594,7 +594,7 @@ public class InvocationArguments {
         }
 
         /**
-         * @return an act-as token if additional API calls to VCD need to be made
+         * @return an act-as token if additional API calls to VCFA need to be made
          * (it os only populated if it is specified in the behavior's definition)
          */
         public String getActAsToken() {
@@ -632,7 +632,7 @@ public class MqttRemoteServerResponseMessage {
 
     /**
      * @return the notification type of the MQTT message. In the case of a MQTT message sent as a
-     * response from extension to VCD this is BEHAVIOR_RESPONSE.
+     * response from extension to VCFA this is BEHAVIOR_RESPONSE.
      */
     public NotificationType getType() {
         return type;

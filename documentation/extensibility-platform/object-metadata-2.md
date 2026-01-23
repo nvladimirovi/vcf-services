@@ -71,7 +71,7 @@ Here is an example of the core structure. For more details, please refer to the 
       "value": {
         "type": "FileEntry",
         "value": {
-          "name": "cloud_director.png",
+          "name": "example.png",
           "size": 41071,
           "mimeType": "image/png"
           }

@@ -400,7 +400,7 @@ Response:
         "vCloudExtension": []
     },
     "result": { // the behavior result
-        "resultContent": "{\"arguments\":{\"x\":7},\"entityId\":\"urn:vcloud:entity:vmware:testType:92016846-f98b-400e-aa4b-db4a4c6b9007\",\"typeId\":\"urn:vcloud:type:vmware:testType:1.0.0\",\"entity\":{\"entity\":{\"VcdVm\":{\"name\":true}}}}",
+        "resultContent": "{\"arguments\":{\"x\":7},\"entityId\":\"urn:vcloud:entity:vmware:testType:92016846-f98b-400e-aa4b-db4a4c6b9007\",\"typeId\":\"urn:vcloud:type:vmware:testType:1.0.0\",\"entity\":{\"entity\":{\"vm\":{\"name\":true}}}}",
         "resultReference": null
     },
     "status": "success",

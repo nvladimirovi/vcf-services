@@ -2,11 +2,10 @@
 > The current MQTT communication architecture, including the VCF Automation Provider Management message broker and MQTT framework, is subject to change in future VCF Automation releases. To ensure long-term compatibility, account for these possible upcoming changes when designing extensions within the extensibility framework.
 
 # Overview
-VCF Automation Provider Management uses a traditional message broker to support many of the extensibility platform capabilities. A message broker comes pre-bundled with the product. The protocol used for communication is [mqtt3.1.1](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html).
-> This page is still under development
+VCF Automation Provider Management uses a traditional message broker to support many of the extensibility platform capabilities. A message broker comes pre-bundled with the product. The protocol used for communication is MQTT - [mqtt3.1.1](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) and [mqtt5.0](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html) are supported.
 
 # Establishing a connection
-* web socket at `{vcd.host}/messaging/mqtt`
+* web socket at `{vcfa.host}/messaging/mqtt`
 
 ## Characteristics of the broker capabilities
 * embedded brokers in each cell (VCF Automation Provider Management instance) of a cell group are clustered

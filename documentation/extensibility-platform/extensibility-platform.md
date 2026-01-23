@@ -10,13 +10,13 @@ More details for all UI Extensibility capabilities and tooling can be found [her
 
 ## Message broker
 
-The backbone of many of the extensibility framework technologies is a [message bus](message-broker.md). Extension backends communicate with-, or monitor various system processes and events. Currently, there are two message busses - one for the AMQP protocol, which is backed by a provider's own RabbitMQ server, and one for the MQTT protocol which is embedded in VMware Cloud Foundation Automation. AMQP is being slowly phased out in favour of MQTT and will eventually be completely removed.
+The backbone of many of the extensibility framework technologies is a [message bus](message-broker.md). Extension backends communicate with, or monitor various system processes and events. Currently, there are two message busses - one for the AMQP protocol, which is backed by a provider's own RabbitMQ server, and one for the MQTT protocol which is embedded in VMware Cloud Foundation Automation. AMQP is being slowly phased out in favour of MQTT and will eventually be completely removed.
 
 ## Notifications and Events
 
 Notifications and Events are mechanisms that provide real-time information about activities, changes, and status updates within the VCF Automation Provider Management environment. These features allow VMware Cloud Foundation Automation Extensions to monitor and respond to events that occur in the cloud infrastructure and enable various monitoring, alerting, automation and external system integration usecases.
 
-VMware Cloud Foundation Automation Notifications and Events are consumed using the MQTT protocol, and more details will be provided in a detailed guide soon.
+VMware Cloud Foundation Automation Notifications and Events are consumed using the [MQTT protocol](message-broker.md).
 
 ## API Extensibility
 

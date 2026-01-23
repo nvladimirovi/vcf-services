@@ -289,7 +289,7 @@ A provider admin can execute RDE operations in the context of a tenant organizat
 
 You can grant access to defined entities (RDEs) by sharing them with other system administrators or tenants.
 
-To share a defined entity with a user, the rights bundle of the defined entity type (which the entity is an instance of) must be published to the organization which the user is part of. So if you wish to share a provider defined entity with a tenant user, you must first publish the rights bundle of the defined entity type to the tenant organization. See [Publish or Unpublish a Rights Bundle](https://docs.vmware.com/en/VMware-Cloud-Director/10.5/VMware-Cloud-Director-Service-Provider-Admin-Guide/GUID-C331FF7E-2300-4F94-9E32-1F3323FD648E.html).
+To share a defined entity with a user, the rights bundle of the defined entity type (which the entity is an instance of) must be published to the organization which the user is part of. So if you wish to share a provider defined entity with a tenant user, you must first publish the rights bundle of the defined entity type to the tenant organization. See [Publish or Unpublish a Rights Bundle](https://developer.broadcom.com/xapis/provider-infrastructure-apis/latest/rights-bundles/).
 
 In general there are 3 levels of access which can be granted to a defined entity - read-only (view), read-write (edit) and full control. Assign the __View: TYPE__, __Edit: TYPE__, or __Full Control: TYPE__ right from the bundle to the user roles you want to have the specific level of access to the defined entity. Also, you must grant the specific users with Access Control Lists (ACLs) with the according access level to the entities:
 
@@ -376,7 +376,7 @@ PUT /cloudapi/1.0.0/entities/<entity-id>
     "externalId": null,
     "entity": {
         "entity": {
-            "VcdVm": {
+            "vm": {
                 "name": true
             }
         }

@@ -73,7 +73,7 @@ Default payload:
   },
   "entity.masked": {
     "entity": {
-      "VcdVm": {
+      "vm": {
         "name": true
       }
     }
@@ -101,7 +101,7 @@ Default payload:
   },
   "entity": {
     "entity": {
-      "VcdVm": {
+      "vm": {
         "name": true
       }
     }
@@ -468,7 +468,7 @@ In order to use VMware Cloud Foundation Automation's webHook behaviors to send m
 
 5. Trust Slack server SSL certificate
 
-    In order to be able to send data to Slack, the Slack server SSL certificate must be trusted. More information on managing SSL certificates in VMware Cloud Foundation Automation can be found [here](https://docs.vmware.com/en/VMware-Cloud-Director/10.4/VMware-Cloud-Director-Service-Provider-Admin-Portal-Guide/GUID-80B4CB1C-9353-4EB9-8557-4F6705949D0F.html).
+    In order to be able to send data to Slack, the Slack server SSL certificate must be trusted. More information on managing SSL certificates in VMware Cloud Foundation Automation can be found [here](https://developer.broadcom.com/xapis/provider-infrastructure-apis/latest/trusted-certificates/).
 
 6. Create a RDE Type implementing the newly created interface
 
@@ -635,14 +635,14 @@ In order to use VMware Cloud Foundation Automation's webHook behaviors to send m
     ```json
     {
         "arguments": {
-            "greeting": "Greetings from vCloudDirector"
+            "greeting": "Greetings from VCFA"
         }
     }
     ```
 
     The following message is posted in Slack as a result:
 
-    ![WebHook behavior invocation's Slack message](../../images/webHook-behavior-slack-example.png)
+    ![WebHook behavior invocation's Slack message](../../images/webHook-behavior-slack.png)
 
 ## Code Examples
 
@@ -810,7 +810,7 @@ public class InvocationArguments {
         }
 
         /**
-         * @return an act-as token if additional API calls to VCD need to be made
+         * @return an act-as token if additional API calls to VCFA need to be made
          * (it os only populated if it is specified in the behavior's definition)
          */
         public String getActAsToken() {
@@ -971,7 +971,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 /**
- * Verifies an incoming webHook behavior request from VCD.
+ * Verifies an incoming webHook behavior request from VCFA.
  */
 public class HMACRequestVerificator {
     private static final String DIGEST_ALGORITHM = "hmac-sha512";
@@ -994,7 +994,7 @@ public class HMACRequestVerificator {
     private static final ObjectMapper objectMapper = new ObjectMapper()
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
     /**
-     * @param sharedSecret the shared secret which will be used to verify the signature from the VCD request headers.
+     * @param sharedSecret the shared secret which will be used to verify the signature from the VCFA request headers.
      */
     public HMACRequestVerificator(String sharedSecret) {
         this.sharedSecret = sharedSecret;
@@ -1025,7 +1025,7 @@ public class HMACRequestVerificator {
         return this;
     }
     /**
-     * @param headers the headers of the incoming request from VCD
+     * @param headers the headers of the incoming request from VCFA
      * @return this {@link HMACRequestVerificator}
      */
     public HMACRequestVerificator withHeaders(Map<String, List<String>> headers) {
@@ -1033,7 +1033,7 @@ public class HMACRequestVerificator {
         return this;
     }
     /**
-     * @param payload the payload of the incoming request from VCD
+     * @param payload the payload of the incoming request from VCFA
      * @return this {@link HMACRequestVerificator}
      */
     public HMACRequestVerificator withPayload(Object payload) {

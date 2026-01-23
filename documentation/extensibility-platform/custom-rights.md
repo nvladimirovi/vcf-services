@@ -152,7 +152,7 @@ Response `201`:
 ```
 ### Delete a custom right
 ```
-DELETE https://<<vcd_host>>:<<vcd_port>>/cloudapi/1.0.0/rights/urn:vcloud:right:b48ec60e-48ee-46bf-aff9-9b5eab626cf3
+DELETE https://<<vcfa_host>>:<<vcfa_port>>/cloudapi/1.0.0/rights/urn:vcloud:right:b48ec60e-48ee-46bf-aff9-9b5eab626cf3
 ```
 Response `204`.
 
