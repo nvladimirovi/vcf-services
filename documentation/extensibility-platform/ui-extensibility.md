@@ -99,14 +99,14 @@ Reference: [ExtensionManifest](#extensionmanifest).
 
 ### Extension Points
 
-Extension points are the primary way a plugin adds functionality to the VCFA UI. They define new navigation items, views, and actions. The extensionPoints array in manifest.json contains a list of these integration points.
+Extension points are the primary way a plugin adds functionality to the VCFA UI. They define new navigation items and views. The extensionPoints array in manifest.json contains a list of these integration points.
 
 Below is an explanation of the common properties found in each extension point object, followed by a breakdown of the specific extension points defined in this manifest.
 
 #### Common Extension Point Properties
 
 * urn (Unique Resource Name): A globally unique identifier for this specific extension point. It follows a URN format, typically structured as urn:vcfa:plugin:\<plugin-name\>:\<extension-point-name\>.  
-* type: Defines where the extension will appear in the UI. The type is hierarchical, indicating the menu and submenu. For example, navigation:primary adds a top-level navigation item, while navigation:services:overview adds an item under the "Services \> Overview" section.  
+* type: Defines where the extension will appear in the UI. The type is hierarchical, indicating the menu and submenu. For example, navigation:primary adds a top-level navigation item, while navigation:manage:govern adds an item under the "Manage & Govern" section.  
 * name: The display name for the extension point that appears in the UI.  
 * description: A short description of what the extension point does.  
 * exposes: Specifies the type of content this extension provides. Exposes maps one-to-one with the [Module Federation concept](https://module-federation.io/configure/exposes).  
@@ -131,35 +131,13 @@ This extension adds a main navigation link to the Partner Services page.
 * **route**: primary-quick-start  
 * **icon**: assets/plugin.png
 
-##### 2\. Services Overview
+##### 2\. Manage & Govern
 
-This extension adds a navigation link under the "Services" \> "Overview" section.
-
-* **urn**: urn:vcfa:plugin:quick-start:services:overview  
-* **type**: navigation:services:overview  
-* **name**: %example.localization.overview% (resolves to "Overview Extension Point")  
-* **route**: overview-quick-start  
-* **iconShape**: quick-start-icon  
-* **iconShapeSrc**: custom-icons-folder/my-custom-icon.svg
-
-##### 3\. VCF Service
-
-This extension adds a navigation link under the "Services" \> "VCF" section.
-
-* **urn**: urn:vcfa:plugin:quick-start:services:vcf  
-* **type**: navigation:services:vcf  
-* **name**: %example.localization.vcf.service% (resolves to "VCF Services Extension Point")  
-* **route**: vcf-service-quick-start  
-* **iconShape**: quick-start-icon  
-* **iconShapeSrc**: custom-icons-folder/my-custom-icon.svg
-
-##### 4\. Manage Govern
-
-This extension adds a navigation link under the "Manage" \> "Govern" section.
+This extension adds a navigation link under the "Manage & Govern" section.
 
 * **urn**: urn:vcfa:plugin:quick-start:manage:govern  
 * **type**: navigation:manage:govern  
-* **name**: %example.localization.manage.govern% (resolves to "Manage Govern Extension Point")  
+* **name**: %example.localization.manage.govern% (resolves to "Manage & Govern Extension Point")  
 * **route**: manage-govern-quick-start  
 * **iconShape**: quick-start-icon  
 * **iconShapeSrc**: custom-icons-folder/my-custom-icon.svg
@@ -176,9 +154,7 @@ The localization mechanism is defined within the "locales" object in the manifes
 "locales": {
     "en": {
         "example.localization.primary.navigation": "Partner Services Extension Point",
-        "example.localization.overview": "Overview Extension Point",
-        "example.localization.vcf.service": "VCF Services Extension Point",
-        "example.localization.manage.govern": "Manage Govern Extension Point",
+        "example.localization.manage.govern": "Manage & Govern Extension Point",
 	  ...
     }
 }
@@ -246,7 +222,7 @@ To access plugin assets at runtime, use the EXTENSION\_ASSET\_URL injection toke
 
 You can inject it into your component's constructor. It's recommended to use the @Optional() decorator in case the token is not available in all environments (e.g., during development with ng serve).
 
-First let’s install the Public SDK.
+First let's install the Public SDK.
 
 ```shell
 nvm use 22
@@ -335,7 +311,7 @@ The public/manifest.json file defines the extension points that the plugin provi
 // ...
 ```
 
-Here, "exposes": "Navigation" tells the host to load the module exposed as Navigation. "component": "SubnavComponent" tells the host which component to render from that module. SubnavComponent is available because it’s exported from bootstrap.plugin.ts.
+Here, "exposes": "Navigation" tells the host to load the module exposed as Navigation. "component": "SubnavComponent" tells the host which component to render from that module. SubnavComponent is available because it's exported from bootstrap.plugin.ts.
 
 ## Using Multiple Bootstrap Files
 
@@ -362,7 +338,7 @@ export const providers: EnvironmentProviders[] = [
 
 This file exports a new component, routes, and a set of EnvironmentProviders.
 
-You may need to add this file in your tsconfig.app.json so it’s part of the compilation process
+You may need to add this file in your tsconfig.app.json so it's part of the compilation process
 
 ```json
 // tsconfig.app.json
@@ -433,196 +409,6 @@ File: packages/vcfa-plugin/projects/ui-plugin/public/manifest.json
 This new extension point will load the DashboardComponent from the Dashboard module when the user navigates to it.
 
 By following this pattern, you can create a plugin that provides multiple, independent pieces of functionality, each loaded on demand.
-
-## Entity Actions Extension Point
-
-This allows you to add custom actions to the Virtual Machine actions menu.
-
-The process involves:
-
-1. Declaring the extension point in manifest.json.  
-2. Implementing the Angular component that provides the action's logic.  
-3. Export Angular components via bootstrap.\*.ts file  
-4. Update webpack config
-
-### 1\. Declare the Extension Point in [manifest.json](#extensionmanifest)
-
-You need to add a new object to the extensionPoints array in the packages/vcfa-plugin/projects/ui-plugin/public/manifest.json file.
-
-Here is an example of a vm-action extension point:
-
-```json
-{
-    "urn": "urn:vcfa:plugin:quick-start:entity-actions",
-    "type": "vm-action",
-    "name": "VM Backup Action",
-    "description": "VM Backup Action Extension Point",
-    "exposes": "EntityActions",
-    "component": "VmBackupActionComponent",
-    "componentSelector": "quick-start-vm-action"
-}
-```
-
-#### Field Explanations
-
-* urn: A unique identifier for your extension point. It's a good practice to follow the format urn:vcfa:plugin:\<your-plugin-name\>:\<description\>.  
-* type: This must be set to "vm-action" for this type of extension.  
-* name: A human-readable name for the action group. This is what might appear in UI tooltips or logs.  
-* description: A short description of what this extension point does.  
-* exposes: Specifies the type of content this extension provides. Exposes maps one-to-one with the [Module Federation concept](https://module-federation.io/configure/exposes).  
-* component: The name of the Angular component class that implements the action's logic (e.g., VmBackupActionComponent).  
-* componentSelector: The selector for the Angular component (e.g., quick-start-vm-action). This is used to dynamically load your component.
-
-### 2\. Implement the Angular Component
-
-Next, you need to create the Angular component that will be loaded when the user interacts with your action. This component must extend EntityActionExtensionComponent from the @vcfa/sdk.
-
-Here is an example implementation for VmBackupActionComponent.
-
-**File:** projects/ui-plugin/src/plugin/actions/vm.backup.action.component.ts
-
-```ts
-import { Component } from "@angular/core";
-import { Observable, of, Subject } from "rxjs";
-import {
-    EntityActionExtensionComponent,
-    EntityActionExtensionMenuEntry
-} from "@vcfa/sdk";
-import { CommonModule } from "@angular/common";
-import { ClarityModule } from "@clr/angular";
-
-@Component({
-    imports: [
-        CommonModule,
-        ClarityModule,
-    ],
-    standalone: true,
-    selector: 'quick-start-vm-action',
-    templateUrl: './vm.backup.action.component.html'
-})
-export class VmBackupActionComponent extends EntityActionExtensionComponent {
-    modalText = "";
-    opened = false;
-
-    private result: Subject<{ refreshRequested: boolean }> | undefined;
-
-    constructor() {
-        super();
-    }
-
-    getMenuEntry(entityUrn: string): Observable<EntityActionExtensionMenuEntry> {
-        return of({
-            text: "Backup (Quick Start)",
-            children: [{
-                urn: "vcfa:plugin:vm-action:backup",
-                text: "Backup (Quick Start)",
-                busy: false,
-                enabled: true
-            },
-            {
-                urn: "vcfa:plugin:vm:deleteBackup",
-                text: "Delete Backups (Quick Start)",
-                busy: false,
-                enabled: false
-            }]
-        });
-    }
-
-    performAction(menuItemUrn: string, entityUrn: string): Observable<{ refreshRequested: boolean }> {
-        this.modalText = `Entity: ${entityUrn}  Action: ${menuItemUrn}`;
-        this.opened = true;
-        this.result = new Subject<{ refreshRequested: boolean }>();
-
-        return this.result.asObservable();
-    }
-
-    onClose() {
-        this.opened = false;
-        if (this.result) {
-            this.result.next({ refreshRequested: true });
-            this.result.complete();
-        }
-    }
-}
-```
-
-#### Key Methods
-
-* **getMenuEntry(entityUrn: string)**: This method is called to get the menu items for your action. You receive the urn of the entity (the VM in this case) and you must return an Observable\<EntityActionExtensionMenuEntry\>. The EntityActionExtensionMenuEntry object defines the text and children (sub-menu items) for your action in the menu. **Be careful this method might be executed often, don’t put high compute intensity logic here.**  
-* **performAction(menuItemUrn: string, entityUrn: string)**: This method is called when a user clicks on one of your menu items. You receive the urn of the menu item that was clicked and the urn of the entity. You should perform your action here and return an Observable. The host application will subscribe to this observable and can refresh its view if { refreshRequested: true } is emitted. VCFA UI decides if refresh is actually needed.
-
-#### Component Template
-
-The component can have a template to show UI, like a modal for confirmation or to display results.
-
-**File:** projects/ui-plugin/src/plugin/actions/vm.backup.action.component.html
-
-```html
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-    <h3 class="modal-title">Quick Start Backup Virtual Machine</h3>
-    <div class="modal-body">
-        <p>{{modalText}}</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="onClose()">
-            Dismiss
-        </button>
-    </div>
-</clr-modal>
-```
-
-### 3\. Export component via bootstrap.\*.ts file
-
-The packages/vcfa-plugin/projects/ui-plugin/src/bootstrap.entity-actions.ts file typically does not bootstrap a full Angular module. Instead, it simply exports the components.
-
-```ts
-// Example bootstrap.entity-actions.ts - exposes an action component
-
-export { VmBackupActionComponent } from './plugin/actions/vm.backup.action.component';
-```
-
-You may need to add bootstrap.entity-actions.ts in your tsconfig.app.json so it’s part of the compilation process
-
-```json
-// tsconfig.app.json
-... 
-"files": [
-    ...,
-    "src/bootstrap.entity-actions.ts",
-  ],
-...
-```
-
-### 4\. Update Webpack config
-
-The `webpack.config.js` file in a micro-frontend will define what is exposed and from where, we now must add `'./EntityActions'`
-
-File: packages/vcfa-plugin/projects/ui-plugin/webpack.config.js 
-
-```javascript
-// Example webpack.config.js
-const { withModuleFederationPlugin } = require('@angular-architects/module-federation/webpack');
-
-// ...
-
-const config = withModuleFederationPlugin({
-  name: 'ui-plugin',
-
-  exposes: {
-    // Maps a public name to an internal file
-    './Navigation': './projects/ui-plugin/src/bootstrap.plugin.ts',
-    './EntityActions': './projects/ui-plugin/src/bootstrap.entity-actions.ts',
-  },
-
-  // ...
-});
-
-module.exports = config;
-```
-
-Here, the `exposes` configuration creates a "remote entry" file that the host application can load. The host can then request `./Navigation` or `./EntityActions` and Webpack will serve the contents of the corresponding bootstrap file.
-
-After creating these files and updating manifest.json, your VM action will appear in VCFA Tenant Portal.
 
 ## Localization: Plugin code
 
@@ -1035,7 +821,7 @@ This document provides documentation for all exposed injectables in the `contain
 
 ## Overview
 
-The `container-hooks` library provides a minimal but essential public SDK for developing plugins within the VCFA-UI ecosystem. It exposes injection tokens for accessing runtime context information, authentication services, and base classes for entity action extensions.
+The `container-hooks` library provides a minimal but essential public SDK for developing plugins within the VCFA-UI ecosystem. It exposes injection tokens for accessing runtime context information and authentication services.
 
 ## Injection Tokens
 
@@ -1223,87 +1009,7 @@ export class MyService {
 }
 ```
 
-## Base Classes
-
-### EntityActionExtensionComponent
-
-**Type:** Abstract Component Class
-
-**Description:** Base class that must be inherited by any component referenced by an entity action extension point. Enables plugins to add custom actions to entity context menus.
-
-#### Abstract Methods
-
-##### getMenuEntry(entityUrn: string): Observable
-
-- **Parameters:**  
-  - `entityUrn`: The URN of the entity for which the menu is being generated  
-- **Returns:** `Observable<EntityActionExtensionMenuEntry>`  
-- **Description:** Returns an observable that defines the menu entry for this component. The observable allows dynamic menu updates (e.g., changing busy or enabled states).
-
-##### performAction(menuItemUrn: string, entityUrn: string): Observable\<{ refreshRequested: boolean }\>
-
-- **Parameters:**  
-  - `menuItemUrn`: The URN of the clicked menu item  
-  - `entityUrn`: The URN of the entity the action is being performed on  
-- **Returns:** `Observable<{ refreshRequested: boolean }>`  
-- **Description:** Called when an enabled menu item is clicked. Must return a single-shot observable indicating whether the entity should be refreshed after the action completes.
-
-#### Usage Example
-
-```ts
-import { EntityActionExtensionComponent, EntityActionExtensionMenuItem } from '@vcfa/sdk';
-import { Observable, of } from 'rxjs';
-
-@Component({
-  selector: 'my-entity-action',
-  template: ''
-})
-export class MyEntityActionComponent extends EntityActionExtensionComponent {
-  
-  getMenuEntry(entityUrn: string): Observable<EntityActionExtensionMenuItem> {
-    return of({
-      urn: 'my-plugin:custom-action',
-      text: 'Custom Action',
-      enabled: true,
-      busy: false
-    });
-  }
-
-  performAction(menuItemUrn: string, entityUrn: string): Observable<{ refreshRequested: boolean }> {
-    // Perform the custom action
-    console.log(`Performing action ${menuItemUrn} on entity ${entityUrn}`);
-    
-    // Return whether the entity should be refreshed
-    return of({ refreshRequested: true });
-  }
-}
-```
-
 ## Supporting Types
-
-### EntityActionExtensionMenuItem
-
-Interface representing a clickable menu item in an entity action menu.
-
-**Properties:**
-
-- `urn: string` \- Unique identifier for the action  
-- `text: string` \- Display label (not automatically translated)  
-- `enabled: boolean` \- Whether the menu item is enabled  
-- `busy: boolean` \- Whether the menu item is in a busy state
-
-### EntityActionExtensionSubmenu
-
-Interface representing a sub-menu containing other menu items or sub-menus.
-
-**Properties:**
-
-- `text: string` \- Display label (automatically translated by the plugin)  
-- `children: EntityActionExtensionMenuItem[]` \- Ordered list of child menu items
-
-### EntityActionExtensionMenuEntry
-
-Union type that can be either `EntityActionExtensionMenuItem` or `EntityActionExtensionSubmenu`.
 
 ### AuthTokenData
 
@@ -1352,9 +1058,8 @@ export class MyPluginComponent {
 
 1. **Token Management**: Always use `jwtAsync` for scenarios where token refresh might occur  
 2. **Error Handling**: Implement proper error handling when using authentication services  
-3. **Menu State Management**: Use observables effectively in `getMenuEntry` to provide dynamic menu updates  
-4. **Resource Cleanup**: Properly unsubscribe from observables to prevent memory leaks  
-5. **Context Awareness**: Use `SESSION_SCOPE` to implement different behaviors for tenant vs. service-provider contexts
+3. **Resource Cleanup**: Properly unsubscribe from observables to prevent memory leaks  
+4. **Context Awareness**: Use `SESSION_SCOPE` to implement different behaviors for tenant vs. service-provider contexts
 
 ### Security Considerations
 
@@ -1377,7 +1082,7 @@ ClarityIcons.addIcons(userIcon);
 
 # How to make API calls to VCFA
 
-You can use VcdApiClient, authentication will be handled automatically (you don’t need to authenticate), links from Tenant Manager responses will also be parsed for you. Links will be available in the response body.
+You can use VcdApiClient, authentication will be handled automatically (you don't need to authenticate), links from Tenant Manager responses will also be parsed for you. Links will be available in the response body.
 
 ```
 export class ExampleComponent {
@@ -1415,18 +1120,18 @@ Most of the Extension Points supported have a property for iconShape, you may wa
 
 Create **packages/uiPlugin/src/public/assets/custom-icons** folder and place your custom icon SVG files in that folder. (You can have as many custom icon folders and files you want)
 
-Let’s say your svg file is **my-custom-icon.svg (bell shape).**
+Let's say your svg file is **my-custom-icon.svg (bell shape).**
 
 ```html
 <svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M32.66 27.9478C31.69 27.0976 30.84 26.1273 30.13 25.067C29.36 23.5965 28.9 21.986 28.77 20.3255V15.174C28.78 9.80236 24.79 5.27099 19.34 4.59079V3.32041C19.34 2.59018 18.74 2.01001 18 2.01001C17.26 2.01001 16.66 2.60019 16.66 3.32041V4.61079C11.27 5.34101 7.18 9.85238 7.19 15.174V20.3255C7.06 21.976 6.6 23.5865 5.83 25.067C5.14 26.1373 4.3 27.1076 3.34 27.9478C3.12 28.1379 3 28.408 3 28.6881V30.0285C3 30.5686 3.45 31.0088 4.01 31.0088H32C32.27 31.0088 32.52 30.9087 32.71 30.7187C32.9 30.5386 33 30.2785 33 30.0185V28.6781C33 28.398 32.87 28.1279 32.66 27.9378V27.9478ZM5.1 29.0382C6.04 28.1579 6.86 27.1576 7.56 26.0873C8.53 24.3067 9.1 22.3461 9.22 20.3255V15.174C9.11 12.033 10.76 9.08214 13.53 7.48166C16.4 5.82116 19.84 5.9412 22.5 7.48166C25.16 9.02213 26.92 12.033 26.81 15.174V20.3255C26.93 22.3361 27.5 24.3067 28.47 26.0873C29.17 27.1676 29.99 28.1579 30.93 29.0382H5.09H5.1Z"></path><path d="M15.41 32.0091C15.71 33.1794 16.79 34.0297 18.05 34.0097C19.27 33.9797 20.3 33.1494 20.59 32.0091H15.41Z"></path></svg>
 ```
 
-Now in manifest.json you want to add a VCF Service Extension Point that uses this “my-custom-icon”.
+Now in manifest.json you want to add a Manage & Govern Extension Point that uses this "my-custom-icon".
 
 ```json
 {
   ...,
-  "type": "navigation:services:vcf",
+  "type": "navigation:manage:govern",
   "name": "%LOCALIZABLE.STRING%",
   ...,
   "iconShape": "my-custom-icon",
