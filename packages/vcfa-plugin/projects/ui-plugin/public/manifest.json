@@ -26,30 +26,6 @@
             "icon": "assets/plugin.png"
         },
         {
-            "urn": "urn:vcfa:plugin:quick-start:services:overview",
-            "type": "navigation:services:overview",
-            "name": "%example.localization.overview%",
-            "description": "%example.localization.description%",
-            "exposes": "Navigation",
-            "component": "SubnavComponent",
-            "componentSelector": "plugin-subnav",
-            "route": "overview-quickstart",
-            "iconShape": "quick-start-icon",
-            "iconShapeSrc": "custom-icons-folder/my-custom-icon.svg"
-        },
-        {
-            "urn": "urn:vcfa:plugin:quick-start:services:vcf",
-            "type": "navigation:services:vcf",
-            "name": "%example.localization.vcf.service%",
-            "description": "%example.localization.description%",
-            "exposes": "Navigation",
-            "component": "SubnavComponent",
-            "componentSelector": "plugin-subnav",
-            "route": "vcf-service-quickstart",
-            "iconShape": "quick-start-icon",
-            "iconShapeSrc": "custom-icons-folder/my-custom-icon.svg"
-        },
-        {
             "urn": "urn:vcfa:plugin:quick-start:manage:govern",
             "type": "navigation:manage:govern",
             "name": "%example.localization.manage.govern%",
@@ -65,8 +41,6 @@
     "locales": {
         "en": {
             "example.localization.primary.navigation": "Partner Services Extension Point",
-            "example.localization.overview": "Overview Extension Point",
-            "example.localization.vcf.service": "VCF Services Extension Point",
             "example.localization.manage.govern": "Manage Govern Extension Point",
             "example.localization.description": "Example of description for the extension point"
         }
