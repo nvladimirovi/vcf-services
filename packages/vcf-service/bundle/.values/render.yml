@@ -1,0 +1,10 @@
+---
+regions:
+  - name: example-region
+    hostSupervisor:
+      name: example-supervisor
+      configuration:
+        enabled: true
+        port: 8080
+    clientSupervisors:
+      - example-supervisor

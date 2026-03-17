@@ -1,0 +1,7 @@
+#@ load("@ytt:data", "data")
+#@ load("@ytt:template", "template")
+
+#@ load("lib.star", "documents")
+#@ load("server.lib.yml", "server", "singleton")
+
+#@ template.replace(documents(data, server, None, singleton))

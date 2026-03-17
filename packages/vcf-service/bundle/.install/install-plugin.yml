@@ -1,0 +1,14 @@
+#@ load("@ytt:data", "data")
+---
+apiVersion: services.vcfa.broadcom.com/v2
+kind: UserInterfacePlugin
+metadata:
+  labels:
+    services.vcfa.broadcom.com/name: myservice-install-plugin
+    services.vcfa.broadcom.com/preinstall: "true"
+spec:
+  enabled: true
+  image: #@ data.values.__systemInstall.uiplugin1
+  allowMultipleVersions: true
+  scope:
+    allTenants: true

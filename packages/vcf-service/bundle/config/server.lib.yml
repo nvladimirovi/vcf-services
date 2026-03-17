@@ -1,0 +1,58 @@
+#! Copyright (c) 2026 Broadcom. All Rights Reserved.
+#! Broadcom Confidential. The term "Broadcom" refers to Broadcom Inc.
+#! and/or its subsidiaries.
+
+#@ load("@ytt:data", "data")
+#@ load("@ytt:yaml", "yaml")
+#@ load("lib.star", "selector", "resource_name")
+
+#! =============================================================================
+#! Singleton Resources (Created once per service)
+#! =============================================================================
+
+#@ def singleton():
+#@   return []
+#@ end
+
+#! =============================================================================
+#! Server Resources (Per Region/Supervisor)
+#! =============================================================================
+
+#@ def server(region):
+
+#! --- SupervisorService ---
+- apiVersion: services.vcfa.broadcom.com/v1alpha1
+  kind: SupervisorService
+  metadata:
+    generateName: #@ region["name"] + "-"
+    labels:
+      services.vcfa.broadcom.com/name: #@ resource_name("svc", region)
+  spec:
+    region: #@ region["name"]
+    supervisor: #@ region["hostSupervisor"]["name"]
+    package:
+      selector:
+        kind: ConfigMap
+        labels:
+          services.vcfa.broadcom.com/context: supervisor-service
+    values:
+      selector:
+        kind: Secret
+        labels:
+          services.vcfa.broadcom.com/context: install
+          services.vcfa.broadcom.com/link-region: #@ region["name"]
+        path: data.values
+
+#! --- Role ---
+- apiVersion: services.vcfa.broadcom.com/v1alpha1
+  kind: Role
+  metadata:
+    generateName: #@ region["name"] + "-"
+  spec:
+    description: "Role for My Service"
+    name: "My Service Administrator"
+    rights:
+      - RIGHT_MYSERVICE_VIEW
+      - RIGHT_MYSERVICE_MANAGE
+
+#@ end
