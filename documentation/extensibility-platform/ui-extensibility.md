@@ -70,7 +70,7 @@ Quick Start packages as \*.tar format to bundle all its elements and prepare the
 # In project root folder 
 
 nvm use 22
-sh ./scripts/package.sh # See output in ./dist
+sh ./scripts/package.sh # See output in ./packages/vcf-service/dist
 ```
 
 ## Deploy
@@ -79,7 +79,7 @@ Open VCFA Tenant Manager \-\> Service Management \-\> Click Upload
 
 ![][image1]
 
-Select the tar file ./dist/quick-start.tar.gz  \-\> Click \-\> Upload \-\> Install  
+Select the tar file ./packages/vcf-service/dist/quick-start.tar.gz  \-\> Click \-\> Upload \-\> Install  
 VCF Service will be available in VCFA Tenant Manager \-\> Overview  
 ![][image2]
 
@@ -1022,7 +1022,7 @@ Open VCFA Tenant Manager \-\> Overview \-\> Click Upload
 
 ![][image1]
 
-Select the tar file ./dist/quick-start.tar.gz  \-\> Click \-\> Upload \-\> Install  
+Select the tar file ./packages/vcf-service/dist/quick-start.tar.gz  \-\> Click \-\> Upload \-\> Install  
 ![][image2]
 
 Refresh the page to see Quick Start Plugin page
