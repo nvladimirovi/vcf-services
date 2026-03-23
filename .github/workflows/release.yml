@@ -9,6 +9,7 @@ on:
         type: choice
         options:
           - '@vcd/sdk'
+          - '@vcfa/sdk'
           - '@vcfa/container-hooks'
       package_version:
         description: 'Version of the NPM package to release'
